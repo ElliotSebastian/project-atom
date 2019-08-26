@@ -1,119 +1,120 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int times=1,total=0;
-
-int check(string f)
+int scheck(char f)
 {
-    if(f[0]=='H')
+    if(f=='H')
     {
         return 1;
     }
-    if(f[0]=='C')
+    if(f=='C')
     {
         return 12;
     }
-    if(f[0]=='N')
+    if(f=='N')
     {
         return 14;
     }
-    if(f[0]=='O')
+    if(f=='O')
     {
         return 16;
     }
-    if(f[0]=='P')
+    if(f=='P')
     {
         return 31;
     }
-    if(f[0]=='S')
+    if(f=='S')
     {
         return 32;
     }
-    if(f[0]=='K')
+    if(f=='K')
     {
         return 39;
     }
-    if(f[0]=='I')
+    if(f=='I')
     {
         return 127;
     }
-    if(f[0]=='H'&&f[1]=='e')
+}
+int dcheck(char f,char b)
+{
+	if(f=='H'&&b=='e')
     {
         return 4;
     }
-    if(f[0]=='N'&&f[1]=='e')
+    if(f=='N'&&b=='e')
     {
         return 20;
     }
-    if(f[0]=='N'&&f[1]=='a')
+    if(f=='N'&&b=='a')
     {
         return 23;
     }
-    if(f[0]=='M'&&f[1]=='g')
+    if(f=='M'&&b=='g')
     {
         return 24;
     }
-    if(f[0]=='A'&&f[1]=='l')
+    if(f=='A'&&b=='l')
     {
         return 27;
     }
-    if(f[0]=='S'&&f[1]=='i')
+    if(f=='S'&&b=='i')
     {
         return 28;
     }
-    if(f[0]=='C'&&f[1]=='l')
+    if(f=='C'&&b=='l')
     {
         return 35.5;
     }
-    if(f[0]=='A'&&f[1]=='r')
+    if(f=='A'&&b=='r')
     {
         return 40;
     }
-    if(f[0]=='C'&&f[1]=='a')
+    if(f=='C'&&b=='a')
     {
         return 40;
     }
-    if(f[0]=='M'&&f[1]=='n')
+    if(f=='M'&&b=='n')
     {
         return 55;
     }
-    if(f[0]=='F'&&f[1]=='e')
+    if(f=='F'&&b=='e')
     {
         return 56;
     }
-    if(f[0]=='C'&&f[1]=='u')
+    if(f=='C'&&b=='u')
     {
         return 64.5;
     }
-    if(f[0]=='Z'&&f[1]=='n')
+    if(f=='Z'&&b=='n')
     {
         return 65;
     }
-    if(f[0]=='A'&&f[1]=='g')
+    if(f=='A'&&b=='g')
     {
         return 108;
     }
-    if(f[0]=='B'&&f[1]=='a')
+    if(f=='B'&&b=='a')
     {
         return 137;
     }
-    if(f[0]=='P'&&f[1]=='t')
+    if(f=='P'&&b=='t')
     {
         return 195;
     }
-    if(f[0]=='A'&&f[1]=='u')
+    if(f=='A'&&b=='u')
     {
         return 197;
     }
-    if(f[0]=='H'&&f[1]=='g')
+    if(f=='H'&&b=='g')
     {
         return 201;
     }
-
 }
 
-void separate(string a)
+int separate(char a[10000])
 {
+	int times=1,total=0;
     int i=0;
     int ti=1;
     string search;
@@ -122,32 +123,39 @@ void separate(string a)
         times=a[0]-'0';
         i=1;
     }
-    for(int j=i;j<a.size();j++)
+    for(int j=i;j<strlen(a);j++)
     {
-        if(isalpha(a[j])==0)
+        if(isalpha(a[j])!=0)
         {
-            search[0]=a[j];
-            if(islower(a[j+1])==0)
+            if(islower(a[j+1])!=0)
             {
-                search[1]==a[j+1];
+                total=total+dcheck(a[j],a[j+1]);
+                j++;
             }
+            else
+            {
+            	total=total+scheck(a[j]);
+			}
         }
         else
         {
-            ti=a[j]-'0';
-            j++;
-        }
-        total=total+ti*check(search);
-        search.erase(1,2);
-        ti=1;
+        	if(islower(a[j-1])!=0)
+            {
+                total=total+(a[j]-'0')*dcheck(a[j-2],a[j-1])-dcheck(a[j-2],a[j-1]);
+            }
+            else
+            {
+            	total=total+(a[j]-'0')*scheck(a[j-1])-scheck(a[j-1]);
+			}
+		}
     }
-}
+    return times*total;
+} 
 
 int main()
 {
-    string a;
+    char a[10000];
     cin>>a;
-    separate(a);
-    cout<<times*total;
+    cout<<separate(a);
     return 0;
 }
