@@ -147,6 +147,7 @@ int main()
 {
     string a;
     cin>>a;
+    separate(a);
     cout<<times*total;
     return 0;
 }
